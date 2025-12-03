@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name         ASP 自动答题脚本（适用于 CQUPT 172 内网）
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  自动从 GitHub 题库获取答案并自动选择
 // @match        http://172.22.214.200/ctas/CPractice.aspx
 // @run-at       document-end
 // @grant        none
 // ==/UserScript==
 
-(function() {
+(function () {
     'use strict';
 
     // -------------------------------------------------------------
@@ -113,6 +113,9 @@
         console.log(`已模拟点击选项 ${ans}`);
     }
 
+    let autoRunning = false;   // 是否正在自动运行
+    let autoTimer = null;      // 定时器引用
+
     function creatButton() {
         const btn = document.createElement('button');
         btn.textContent = 'ASP';
@@ -128,14 +131,16 @@
             borderRadius: '4px',
             cursor: 'pointer',
             zIndex: 9999,
-            fontSize: '14px'
+            fontSize: '14px',
+            transition: '0.2s'
         });
 
         document.body.appendChild(btn);
 
-        btn.addEventListener('click', autoAns);
+        // 点击按钮切换状态
+        btn.addEventListener('click', () => toggleAuto(btn));
 
-        // 允许按 Enter 触发
+        // Enter键绑定（保持不变）
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Enter') {
                 const active = document.activeElement;
@@ -143,10 +148,41 @@
                     (active.isContentEditable ||
                         ['INPUT', 'TEXTAREA', 'SELECT'].includes(active.tagName));
 
-                if (!isEditable) autoAns();
+                if (!isEditable) toggleAuto(btn);
             }
         });
     }
+
+    // 切换自动运行状态
+    function toggleAuto(btn) {
+        if (!autoRunning) {
+            // 开始自动运行
+            autoRunning = true;
+            btn.textContent = '运行中';
+            btn.style.backgroundColor = '#13c213';  // 绿色运行状态
+
+            // 立即执行一次
+            autoAns();
+
+            // 每 6 秒执行一次
+            autoTimer = setInterval(autoAns, 6000);
+
+            console.log("自动答题 已开启");
+
+        } else {
+            // 停止自动运行
+            autoRunning = false;
+            btn.textContent = 'ASP';
+            btn.style.backgroundColor = '#0063e5';  // 恢复原色
+
+            // 清除定时器
+            clearInterval(autoTimer);
+            autoTimer = null;
+
+            console.log("自动答题 已关闭");
+        }
+    }
+
 
     async function autoAns() {
         console.log("autoAns() 调用");
