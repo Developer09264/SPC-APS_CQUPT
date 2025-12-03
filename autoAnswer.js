@@ -40,7 +40,7 @@ async function loadQuestionBank() {
         if (!response.ok) {
             throw new Error(`HTTP 错误！状态码: ${response.status}`);
         }
-        
+
         const bank = await response.json();
         console.log("题库数据加载成功！");
         return bank;
@@ -62,50 +62,12 @@ function findAnswerById(questionBank, questionId) {
     return questionBank[questionId] || null;
 }
 
-/**
- * 4. 在页面右下角显示一个临时的弹窗。
- * @param {string} message 要显示的消息内容。
- * @param {boolean} isSuccess 用于颜色区分。
- */
-function showAnswerPopup(message, isSuccess) {
-    // 移除旧的弹窗，确保每次只有一个
-    const existingPopup = document.getElementById('answer-finder-popup');
-    if (existingPopup) {
-        existingPopup.remove();
-    }
-
-    const popup = document.createElement('div');
-    popup.id = 'answer-finder-popup';
-    popup.textContent = message;
-
-    // 设置弹窗样式
-    popup.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        padding: 10px 15px;
-        border-radius: 5px;
-        color: white;
-        font-weight: bold;
-        z-index: 10000;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        transition: opacity 0.5s ease-in-out;
-        background-color: ${isSuccess ? '#4CAF50' : '#F44336'}; /* 绿色/红色 */
-    `;
-
-    document.body.appendChild(popup);
-
-    // 2秒后自动删除弹窗
-    setTimeout(() => {
-        popup.style.opacity = '0'; // 开始淡出
-        setTimeout(() => popup.remove(), 500); // 彻底移除
-    }, POPUP_DISPLAY_TIME_MS);
-}
-
-
-/**
- * 5. 核心运行逻辑：先检查本地是否有数据，没有则加载。
- */
+/*
+每次运行，检查是否已经加载题库，没有就加载
+调用getQuestionNumber()，获取题号
+调用findAnswerById()，从题库中获取答案
+返回答案string
+*/
 async function runAnswerFinder() {
     // 1. 检查是否需要加载题库
     if (!window.questionBank) {
@@ -124,57 +86,134 @@ async function runAnswerFinder() {
         return;
     }
 
+    console.log("runAnswerFinder():题目ID="+currentQuestionId);
     // 3. 查找答案
     const finalAnswer = findAnswerById(window.questionBank, currentQuestionId);
 
-    // 4. 展示结果
-    if (finalAnswer) {
-        showAnswerPopup(`🎉 答案: ${finalAnswer} (ID: ${currentQuestionId})`, true);
+    //返回结果
+    return finalAnswer;
+}
+
+
+
+
+
+
+/**
+ * 使用 document.querySelectorAll 获取页面上所有 class 为 "chosenItem" 的元素。
+ *
+ * @returns {NodeList} 包含所有匹配元素的 NodeList 对象。
+ */
+function getChosenItems() {
+    // 使用 CSS 选择器 .chosenItem 来匹配所有 class 包含 chosenItem 的元素
+    const chosenItems = document.querySelectorAll('.chosenItem');
+    return chosenItems;
+}
+
+function checkOptionsList(optionsList) {
+    // 2. 检查是否成功获取到元素
+    if (optionsList.length > 0) {
+        console.log(`成功获取到 ${optionsList.length} 个选项元素。`);
+
+        // 3. 示例：遍历并输出每个选项的内容或属性
+        // optionsList.forEach((item, index) => {
+        //     console.log(`--- 选项 ${index + 1} ---`);
+        //     console.log("元素文本内容:", item.textContent.trim());
+        // });
+        return true;
     } else {
-        showAnswerPopup(`🤔 未找到答案 (ID: ${currentQuestionId})`, false);
+        console.log("未在页面上找到任何 class='chosenItem' 的元素。请检查类名是否拼写正确，或元素是否已加载。");
+        return false;
     }
 }
 
 
-/**
- * 6. 初始化：创建并配置右下角的按钮。
- */
-function initializeButton() {
-    const button = document.createElement('button');
-    button.id = 'answer-finder-button';
-    button.textContent = '🔍 查答案';
+function simulateChoice(items, ans) {
+    console.log("simulateChoice():获取到答案  "+ans);
+    if (!items || items.length !== 4) {
+        console.error('NodeList 必须包含恰好 4 个元素');
+        return;
+    }
 
-    // 设置按钮样式
-    button.style.cssText = `
-        position: fixed;
-        bottom: 70px; /* 放在弹窗上方 */
-        right: 20px;
-        padding: 12px 20px;
-        border-radius: 8px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: bold;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        z-index: 10000;
-        transition: background-color 0.2s;
-    `;
-    
-    // 悬停效果
-    button.onmouseover = () => button.style.backgroundColor = '#0056b3';
-    button.onmouseout = () => button.style.backgroundColor = '#007bff';
+    // 将字母映射到对应的索引（0‑3）
+    const map = { 'A': 0, 'B': 1, 'C': 2, 'D': 3 };
+    const index = map[ans];
 
+    if (index === undefined) {
+        console.error('ans 必须是 "A"、"B"、"C" 或 "D"');
+        return;
+    }
 
-    // 绑定点击事件
-    button.onclick = runAnswerFinder;
+    const target = items[index];
+    if (!target) {
+        console.warn('未找到对应的元素');
+        return;
+    }
 
-    document.body.appendChild(button);
-    console.log("✅ 答案查找按钮已初始化并添加到页面右下角。");
+    // 触发原生 click 事件（兼容大多数浏览器）
+    if (typeof target.click === 'function') {
+        target.click();                     // 简单方式
+    } else {
+        // 手动创建并分发事件（更通用）
+        const event = new MouseEvent('click', {
+            view: window,
+            bubbles: true,
+            cancelable: true
+        });
+        target.dispatchEvent(event);
+    }
+
+    console.log(`已模拟点击第 ${index + 1} 项（对应 ${ans}）`);
 }
 
-// 确保在 DOM 加载完成后执行初始化
-document.addEventListener('DOMContentLoaded', initializeButton);
-// 如果您的脚本是作为油猴脚本或直接注入的，可以立即执行 initializeButton()
-initializeButton();
+
+
+function creatButton() {
+    const btn = document.createElement('button');
+    btn.textContent = 'ASP';
+    // 基本样式，使按钮固定在右下角
+    Object.assign(btn.style, {
+        position: 'fixed',
+        right: '20px',
+        bottom: '20px',
+        padding: '10px 16px',
+        backgroundColor: '#0063e5',
+        color: '#fff',
+        border: 'none',
+        borderRadius: '4px',
+        cursor: 'pointer',
+        zIndex: 9999,
+        fontSize: '14px'
+    });
+    document.body.appendChild(btn);
+
+    // 鼠标点击
+    btn.addEventListener('click', autoAns);
+
+    // Enter 键（在页面任意位置按下时触发）
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+            // 防止在输入框等可编辑元素中触发
+            const active = document.activeElement;
+            const isEditable = active && (active.isContentEditable ||
+                ['INPUT', 'TEXTAREA', 'SELECT'].includes(active.tagName));
+            if (!isEditable) {
+                autoAns();
+            }
+        }
+    });
+
+}
+
+
+async function autoAns() {
+    console.log('函数 autoAns 被调用');
+    const ans = await runAnswerFinder();
+    const items = getChosenItems();
+    if (checkOptionsList(items)) {
+        setTimeout(simulateChoice(items, ans),500);
+        
+    }
+}
+
+creatButton();
