@@ -141,16 +141,16 @@
         btn.addEventListener('click', () => toggleAuto(btn));
 
         // Enter键绑定（保持不变）
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter') {
-                const active = document.activeElement;
-                const isEditable = active &&
-                    (active.isContentEditable ||
-                        ['INPUT', 'TEXTAREA', 'SELECT'].includes(active.tagName));
+        // document.addEventListener('keydown', function (e) {
+        //     if (e.key === 'Enter') {
+        //         const active = document.activeElement;
+        //         const isEditable = active &&
+        //             (active.isContentEditable ||
+        //                 ['INPUT', 'TEXTAREA', 'SELECT'].includes(active.tagName));
 
-                if (!isEditable) toggleAuto(btn);
-            }
-        });
+        //         if (!isEditable) toggleAuto(btn);
+        //     }
+        // });
     }
 
     // 切换自动运行状态
