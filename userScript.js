@@ -140,17 +140,6 @@
         // 点击按钮切换状态
         btn.addEventListener('click', () => toggleAuto(btn));
 
-        // Enter键绑定（保持不变）
-        // document.addEventListener('keydown', function (e) {
-        //     if (e.key === 'Enter') {
-        //         const active = document.activeElement;
-        //         const isEditable = active &&
-        //             (active.isContentEditable ||
-        //                 ['INPUT', 'TEXTAREA', 'SELECT'].includes(active.tagName));
-
-        //         if (!isEditable) toggleAuto(btn);
-        //     }
-        // });
     }
 
     // 切换自动运行状态
@@ -187,7 +176,7 @@
     async function autoAns() {
         console.log("autoAns() 调用");
 
-        const ans = await runAnswerFinder();   // <-- 关键修复
+        const ans = await runAnswerFinder();
         console.log("最终答案:", ans);
 
         if (!ans) {
