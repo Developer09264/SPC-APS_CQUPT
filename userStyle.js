@@ -6,8 +6,8 @@
 // @match        http://172.22.214.200/ctas/CPractice.aspx
 // @run-at       document-end
 // @grant        none
-// @downloadURL  https://github.com/Developer09264/SPC-APS_CQUPT/raw/refs/heads/main/userStyle.js
-// @updateURL    https://github.com/Developer09264/SPC-APS_CQUPT/raw/refs/heads/main/userStyle.js
+// @downloadURL  https://github.com/Developer09264/SPC-APS_CQUPT/main/userStyle.js
+// @updateURL    https://github.com/Developer09264/SPC-APS_CQUPT/main/userStyle.js
 // ==/UserScript==
 
 (function () {
@@ -447,7 +447,6 @@ select:focus {
                         '<span class="hl-header">$1</span> <span class="hl-lib">$2</span>'
                     );
                 } else {
-                    // 普通代码行
                     processedLine = highlightKeywords(processedLine);
                 }
 
