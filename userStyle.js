@@ -369,7 +369,7 @@ select:focus {
 
         /* 语法高亮配色 (Light Theme) */
         .hl-keyword { color: #d73a49; font-weight: bold; } /* int, void */
-        .hl-string  { color: #032f62; } /* "String" */
+        .hl-string  { color: #36a96aff; } /* "String" */
         .hl-comment { color: #6a737d; font-style: italic; } /* // Comment */
         .hl-header  { color: #6f42c1; } /* #include */
         .hl-lib     { color: #005cc5; } /* iostream */
@@ -469,7 +469,7 @@ select:focus {
             res = res.replace(/(&quot;.*?&quot;)/g, '<span class="hl-string">$1</span>');
             // 关键字高亮 (避开已经在标签里的内容，这里简单处理)
             // 注意：因为已经转义过，不会破坏 HTML 标签
-            const keywords = /\b(void|int|long|short|float|double|char|return|using|namespace)\b/g;
+            const keywords = /\b(void|int|struct|const|long|short|float|double|char|return|using|namespace)\b/g;
             res = res.replace(keywords, '<span class="hl-keyword">$1</span>');
 
             const objects = /\b(cout|cin|endl)\b/g;
