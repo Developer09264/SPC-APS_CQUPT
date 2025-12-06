@@ -6,8 +6,8 @@
 // @match        http://172.22.214.200/ctas/login.aspx
 // @run-at       document-end
 // @grant        none
-// @downloadURL  https://github.com/Developer09264/SPC-APS_CQUPT/blob/main/userStyle.js
-// @updateURL    https://github.com/Developer09264/SPC-APS_CQUPT/blob/main/userStyle.js
+// @downloadURL  https://github.com/Developer09264/SPC-APS_CQUPT/raw/refs/heads/main/userStyle.js
+// @updateURL    https://github.com/Developer09264/SPC-APS_CQUPT/raw/refs/heads/main/userStyle.js
 // ==/UserScript==
 
 (function () {
