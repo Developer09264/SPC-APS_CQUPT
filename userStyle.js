@@ -56,7 +56,7 @@ td {
 /* --- 主容器 (模拟 macOS 窗口) --- */
 .page {
     width: 1050px !important; /*稍微加宽以适应现代屏幕*/
-    margin: 0 auto;
+    margin: 5ex auto;
     padding: 30px;
     background: rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(40px) saturate(180%);
@@ -393,7 +393,7 @@ select:focus {
         const firstChildElement = parent.firstElementChild;
         if (firstChildElement && firstChildElement.tagName.toLowerCase() === 'div') {
             parent.removeChild(firstChildElement);
-            console.log('Removed Title');
+            // console.log('Removed Title');
         }
     }
     removeTitle();
@@ -411,7 +411,7 @@ select:focus {
                 .replace(/^\s*\d{1,2}\)/gm, '')
                 .replace(/\u3000/g, ' ');
 
-            console.log("\nrawHtml:\n" + codeText + "\n");
+            // console.log("\nrawHtml:\n" + codeText + "\n");
 
 
             // --- B. 按行处理与高亮 ---
@@ -424,13 +424,9 @@ select:focus {
             }
 
             lines.forEach(line => {
-                // if (line.trim().length === 0 && lines.length > 1) return; // 可选：跳过纯空行
-
-                // 1. 先进行基础 HTML 转义 (防止 <iostream> 被当做 HTML 标签吞掉)
-                // let processedLine = escapeHtml(line);
                 let processedLine = line;
 
-                console.log("\nafter processedLine:\n" + processedLine);
+                // console.log("\nafter processedLine:\n" + processedLine);
 
                 // 2. 应用高亮逻辑
                 // 这是一个简易替换逻辑：先处理整行匹配（如注释），再处理单词
@@ -463,13 +459,13 @@ select:focus {
 
         // 内部函数：高亮普通关键字
         function highlightKeywords(str) {
-            console.log("before highlightKeywords:\n" + str);
+            // console.log("before highlightKeywords:\n" + str);
             let res = str;
             // 字符串高亮
             res = res.replace(/(&quot;.*?&quot;)/g, '<span class="hl-string">$1</span>');
             // 关键字高亮 (避开已经在标签里的内容，这里简单处理)
             // 注意：因为已经转义过，不会破坏 HTML 标签
-            const keywords = /\b(void|int|struct|const|long|short|float|double|char|return|using|namespace)\b/g;
+            const keywords = /\b(void|int|struct|const|long|short|float|double|char|return|using|namespace|for|while|do|break|continue|else)\b/g;
             res = res.replace(keywords, '<span class="hl-keyword">$1</span>');
 
             const objects = /\b(cout|cin|endl)\b/g;
