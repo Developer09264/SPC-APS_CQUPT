@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         题库美化脚本
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @description  Gemini写的
 // @match        http://172.22.214.200/ctas/CPractice.aspx
 // @run-at       document-end

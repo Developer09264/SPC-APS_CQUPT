@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         ASP 自动答题脚本（适用于 CQUPT 172 内网）
+// @name         ASP 自动答题脚本
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.1.1
 // @description  自动从 GitHub 题库获取答案并自动选择
 // @match        http://172.22.214.200/ctas/CPractice.aspx
 // @run-at       document-end

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         autoCheckCode
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  结构化程序设计题库登陆界面自动填写验证码
 // @match        http://172.22.214.200/ctas/login.aspx
 // @run-at       document-end
