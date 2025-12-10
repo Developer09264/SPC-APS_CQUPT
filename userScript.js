@@ -1,13 +1,11 @@
 // ==UserScript==
 // @name         ASP 自动答题脚本
 // @namespace    http://tampermonkey.net/
-// @version      1.1.1
+// @version      1.2
 // @description  自动从 GitHub 题库获取答案并自动选择
 // @match        http://172.22.214.200/ctas/CPractice.aspx
 // @run-at       document-end
 // @grant        none
-// @downloadURL  https://raw.githubusercontent.com/Developer09264/SPC-APS_CQUPT/main/autoAnswer.js
-// @updateURL    https://raw.githubusercontent.com/Developer09264/SPC-APS_CQUPT/main/autoAnswer.js
 // ==/UserScript==
 
 (function () {
@@ -17,7 +15,6 @@
     // 配置
     // -------------------------------------------------------------
     const GITHUB_JSON_URL = 'https://raw.githubusercontent.com/Developer09264/SPC-APS_CQUPT/main/ans.json';
-    const POPUP_DISPLAY_TIME_MS = 2000;
 
     window.questionBank = null;
 

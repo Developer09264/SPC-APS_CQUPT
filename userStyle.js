@@ -6,8 +6,6 @@
 // @match        http://172.22.214.200/ctas/CPractice.aspx
 // @run-at       document-end
 // @grant        none
-// @downloadURL  https://raw.githubusercontent.com/Developer09264/SPC-APS_CQUPT/main/userStyle.js
-// @updateURL    https://raw.githubusercontent.com/Developer09264/SPC-APS_CQUPT/main/userStyle.js
 // ==/UserScript==
 
 (function () {
@@ -386,6 +384,7 @@ select:focus {
 
     document.getElementById('ProgramContent').style.padding = '5px';
 
+    //删除这个很丑的标题
     function removeTitle() {
         const el = document.getElementById('cChapter');
 

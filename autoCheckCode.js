@@ -1,13 +1,11 @@
 // ==UserScript==
 // @name         autoCheckCode
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @description  结构化程序设计题库登陆界面自动填写验证码
 // @match        http://172.22.214.200/ctas/login.aspx
 // @run-at       document-end
 // @grant        none
-// @downloadURL  https://raw.githubusercontent.com/Developer09264/SPC-APS_CQUPT/main/autoCheckCode.js
-// @updateURL    https://raw.githubusercontent.com/Developer09264/SPC-APS_CQUPT/main/autoCheckCode.js
 // ==/UserScript==
 
 (function () {
